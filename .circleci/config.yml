@@ -16,6 +16,6 @@ jobs:
     <<: *python_env
     steps:
       - checkout
-      - run: &install_awscli
+      - run: *install_awscli
       - setup_remote_docker
       - run: docker run -e SVN_USERNAME=$SVN_USERNAME -e SVN_PASSWORD=$SVN_PASSWORD -v $PWD:/root/online_review -t appiriodevops/online-review:circleci-build sh -c ".deploy/circleci/build.sh"
