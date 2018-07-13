@@ -1,0 +1,21 @@
+version: 2
+
+python_env: &python_env
+  docker:
+    - image: circleci/python:2.7-stretch-browsers
+
+install_awscli: &install_awscli
+  name: "Install awscli"
+  command: |
+    sudo pip install awscli awsebcli --upgrade
+    aws --version
+    eb --version
+
+jobs:
+  build:
+    <<: *python_env
+    steps:
+      - checkout
+      - run: &install_awscli
+      - setup_remote_docker
+      - docker run -e SVN_USERNAME=$SVN_USERNAME -e SVN_PASSWORD=$SVN_PASSWORD -v $PWD:/root/online_review -t appiriodevops/online-review:circleci-build sh -c ".deploy/circleci/build.sh"
